@@ -1,14 +1,36 @@
 {
   "version": 2,
-  "rewrites": [
+  "name": "viperai",
+  "builds": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/main.js"
+      "src": "main.js",
+      "use": "@vercel/node"
     },
     {
-      "source": "/(.*)",
-      "destination": "/public/$1"
+      "src": "public/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "bridge.js",
+      "use": "@vercel/static"
     }
   ],
-  "cleanUrls": true
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/main.js"
+    },
+    {
+      "src": "/bridge.js",
+      "dest": "/bridge.js"
+    },
+    {
+      "src": "/(css|js|assets)/(.*)",
+      "dest": "/public/$1/$2"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/index.html"
+    }
+  ]
 }
