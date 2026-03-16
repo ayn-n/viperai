@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "viperai",
   "builds": [
     {
       "src": "main.js",
@@ -9,28 +8,11 @@
     {
       "src": "public/**",
       "use": "@vercel/static"
-    },
-    {
-      "src": "bridge.js",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/main.js"
-    },
-    {
-      "src": "/bridge.js",
-      "dest": "/bridge.js"
-    },
-    {
-      "src": "/(css|js|assets)/(.*)",
-      "dest": "/public/$1/$2"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/public/index.html"
-    }
+    { "src": "/api/(.*)", "dest": "/main.js" },
+    { "src": "/bridge.js", "dest": "/public/bridge.js" },
+    { "src": "/(.*)", "dest": "/public/index.html" }
   ]
 }
