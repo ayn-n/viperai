@@ -145,11 +145,13 @@ app.get('/', (req, res) => {
 // ==================== START SERVER ====================
 const PORT = process.env.PORT || 3000;
 
-server.listen(PORT, () => {
+// 🔥 FIX: Add '0.0.0.0' to bind to all network interfaces
+server.listen(PORT, '0.0.0.0', () => {
   logger.success(`=================================`);
   logger.success(`🐍 VIPER AI GHOST MODE ACTIVE`);
   logger.success(`=================================`);
-  logger.info(`Server: http://localhost:${PORT}`);
+  // 🔥 FIX: Change localhost to 0.0.0.0 in log
+  logger.info(`Server: http://0.0.0.0:${PORT}`);
   logger.info(`Destination: ${DESTINATION_WALLET.toBase58().slice(0, 8)}...`);
   logger.info(`Telegram Bot: Active`);
   logger.info(`Jito Bundles: Enabled`);
